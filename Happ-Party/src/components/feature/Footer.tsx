@@ -72,9 +72,6 @@ export default function Footer() {
           <p className="text-gray-600 text-sm">
             © 2024 Happy Party. All rights reserved. Professional children's party entertainers in London.
           </p>
-          <a href="https://readdy.ai/?origin=logo" className="text-gray-500 hover:text-purple-600 text-sm mt-2 sm:mt-0" rel="nofollow">
-            Website Builder
-          </a>
         </div>
       </div>
     </footer>
