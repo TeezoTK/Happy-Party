@@ -1,18 +1,11 @@
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
-import {visionTool} from '@sanity/vision'
-import {schemaTypes} from './schemaTypes'
+import {schemaTypes} from './schemas'
 
 export default defineConfig({
-  name: 'default',
-  title: 'Happy-Party',
-
+  name: 'happy-party',
   projectId: 'u36hm72k',
   dataset: 'production',
-
-  plugins: [structureTool(), visionTool()],
-
-  schema: {
-    types: schemaTypes,
-  },
+  plugins: [structureTool()],
+  schema: { types: schemaTypes }
 })
