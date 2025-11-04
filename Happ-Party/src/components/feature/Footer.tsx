@@ -69,11 +69,18 @@ export default function Footer() {
             </ul>
           </div>
         </div>
+        <a href="https://happy-party-cms.sanity.studio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 sm:mt-0 text-sm text-gray-600 hover:text-purple-600 underline">
+            Owner login
+          </a>
 
         <div className="border-t border-gray-200 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-gray-600 text-sm">
             © 2024 Happy Party. All rights reserved. Professional children's party entertainers in London.
           </p>
+          
         </div>
       </div>
     </footer>
