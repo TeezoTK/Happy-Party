@@ -12,3 +12,8 @@ dist
 .DS_Store
 .env
 .env.*
+
+# ignore keys
+*.pub
+.ssh/
+*.pem
