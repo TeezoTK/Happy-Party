@@ -6,14 +6,15 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { name: 'Home', href: '/' },
-    { name: 'Packages', href: '/packages' },
-    { name: 'Themes', href: '/themes' },
-    { name: 'Gallery', href: '/gallery' },
-    { name: 'Reviews', href: '/reviews' },
-    { name: 'FAQs', href: '/faqs' },
-    { name: 'About', href: '/about' }
-  ];
+  { name: 'Home', href: '/' },
+  { name: 'Packages', href: '/packages' },
+  { name: 'Themes', href: '/themes' },
+  { name: 'Gallery', href: '/gallery' },
+  { name: 'News', href: '/posts' },         // ✅ NEW
+  { name: 'Reviews', href: '/reviews' },
+  { name: 'FAQs', href: '/faqs' },
+  { name: 'About', href: '/about' }
+];
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-lg">
