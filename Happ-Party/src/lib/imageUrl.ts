@@ -1,5 +1,3 @@
-// URL builder for Sanity images
-import { client, cmsEnabled } from './sanity';
 // Happ-Party/src/lib/imageUrl.ts
 import imageUrlBuilder from '@sanity/image-url'
 
