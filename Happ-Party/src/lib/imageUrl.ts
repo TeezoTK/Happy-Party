@@ -1,15 +1,15 @@
 // URL builder for Sanity images
-
-import imageUrlBuilder from '@sanity/image-url';
 import { client, cmsEnabled } from './sanity';
+// Happ-Party/src/lib/imageUrl.ts
+import imageUrlBuilder from '@sanity/image-url'
 
-const builder = cmsEnabled ? imageUrlBuilder(client) : null as any;
+// reuse your actual values
+const projectId = 'u36hm72k'
+const dataset = 'production'
 
-export function urlFor(source: any) {
-  if (!builder) {
-    // Fallback: return empty object with url() to avoid runtime crashes
-    return { url: () => '' };
-  }
-  return builder.image(source);
+// builder accepts a config-like object with projectId/dataset
+const builder = imageUrlBuilder({ projectId, dataset })
+
+export function urlFor(src: any) {
+  return builder.image(src)
 }
-
