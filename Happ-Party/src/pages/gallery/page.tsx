@@ -267,7 +267,7 @@ export default function Gallery() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="/#book"
+              href="/book"
               className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-full bg-white text-purple-600 hover:bg-gray-100 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer whitespace-nowrap"
             >
               <i className="ri-calendar-check-line mr-2"></i>
