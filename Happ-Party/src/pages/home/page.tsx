@@ -177,7 +177,7 @@ export default function Home() {
                   <Button href="/packages" variant="outline" className="w-full mb-2">
                     See details
                   </Button>
-                  <Button href="/#book" variant="primary" className="w-full">
+                  <Button href="/book" variant="primary" className="w-full">
                     Check availability
                   </Button>
                 </div>
