@@ -44,7 +44,7 @@ export default function Header() {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button href="/#book" variant="primary" className="whitespace-nowrap">
+            <Button href="/book" variant="primary" className="whitespace-nowrap">
               Check Availability
             </Button>
           </div>
