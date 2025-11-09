@@ -1,21 +1,46 @@
+
+
 import { useEffect, useState } from 'react';
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
 
+// NEW: pull images from Sanity when CMS is enabled
+import { sfetch, cmsEnabled } from '../../lib/sanity'; // NEW
+import { urlFor } from '../../lib/imageUrl';            // NEW
+
+// NEW: Sanity gallery image shape
+type GImage = {
+  _id: string;
+  photo: any;
+  title?: string;
+  caption?: string;
+  town?: string;
+  takenAt?: string;
+};
+
 export default function Gallery() {
+  // CHANGED: add images + loading state
+  const [images, setImages] = useState<GImage[]>([]); // NEW
+  const [loading, setLoading] = useState(true);       // NEW
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   useEffect(() => {
-    document.title = "Party Gallery | Happy Party";
-    
+    document.title = 'Party Gallery | Happy Party';
+
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'View our gallery of happy children\'s parties in London. See real photos from Princess, Superhero, Disco, and Face-paint themed birthday celebrations.');
+      metaDescription.setAttribute(
+        'content',
+        "View our gallery of happy children's parties in London. See real photos from Princess, Superhero, Disco, and Face-paint themed birthday celebrations."
+      );
     }
 
     const metaKeywords = document.querySelector('meta[name="keywords"]');
     if (metaKeywords) {
-      metaKeywords.setAttribute('content', 'children party photos London, party gallery London, kids birthday party pictures, party entertainment photos');
+      metaKeywords.setAttribute(
+        'content',
+        'children party photos London, party gallery London, kids birthday party pictures, party entertainment photos'
+      );
     }
 
     const canonical = document.querySelector('link[rel="canonical"]');
@@ -32,9 +57,25 @@ export default function Gallery() {
     if (ogUrl) {
       ogUrl.setAttribute('content', 'https://happyparty.co.uk/gallery');
     }
+
+    // NEW: load images from Sanity
+    (async () => {
+      try {
+        if (!cmsEnabled) return; // fall back to placeholders
+        const data = await sfetch<GImage[]>(
+          `*[_type=="galleryImage"]|order(takenAt desc){
+            _id, photo, title, caption, town, takenAt
+          }`
+        );
+        setImages(data ?? []);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
-  const galleryImages = [
+  // CHANGED: keep your placeholders as a fallback when CMS is off or empty
+  const placeholderImages: { src: string; caption: string; alt: string }[] = [
     {
       src: 'https://readdy.ai/api/search-image?query=Happy%20children%20at%20princess%20themed%20birthday%20party%20in%20London%20with%20pink%20decorations%2C%20crowns%2C%20magical%20atmosphere%2C%20smiling%20kids%20aged%204-8%2C%20professional%20party%20entertainment&width=400&height=300&seq=gallery1&orientation=landscape',
       caption: 'Princess Party — Croydon',
@@ -97,37 +138,40 @@ export default function Gallery() {
     }
   ];
 
-  const openLightbox = (index: number) => {
-    setSelectedImage(index);
-  };
+  // NEW: build a normalized array the UI can render (Sanity first, fallback to placeholders)
+  const displayImages = (cmsEnabled && images.length
+    ? images.map((img) => ({
+        src: urlFor(img.photo).width(1000).height(750).fit('crop').url(),
+        alt: img.caption || img.title || 'Party photo',
+        caption: `${img.caption || img.title || 'Happy Party'}${img.town ? ` — ${img.town}` : ''}`,
+      }))
+    : placeholderImages
+  );
 
-  const closeLightbox = () => {
-    setSelectedImage(null);
-  };
+  const openLightbox = (index: number) => setSelectedImage(index);
+  const closeLightbox = () => setSelectedImage(null);
 
   const nextImage = () => {
     if (selectedImage !== null) {
-      setSelectedImage((selectedImage + 1) % galleryImages.length);
+      setSelectedImage((selectedImage + 1) % displayImages.length); // CHANGED
     }
   };
 
   const prevImage = () => {
     if (selectedImage !== null) {
-      setSelectedImage(selectedImage === 0 ? galleryImages.length - 1 : selectedImage - 1);
+      setSelectedImage(selectedImage === 0 ? displayImages.length - 1 : selectedImage - 1); // CHANGED
     }
   };
 
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      
+
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-purple-50 to-pink-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Party Gallery
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Party Gallery</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               See the joy and excitement from our recent children's parties across London. Every celebration is unique and filled with magical moments.
             </p>
@@ -138,31 +182,40 @@ export default function Gallery() {
       {/* Gallery Grid */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {galleryImages.map((image, index) => (
-              <div 
-                key={index} 
-                className="group cursor-pointer overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
-                onClick={() => openLightbox(index)}
-              >
-                <div className="relative">
-                  <img 
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-64 object-cover object-top group-hover:scale-105 transition-transform duration-300"
-                    loading={index > 3 ? "lazy" : "eager"}
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                    <p className="text-white font-medium">{image.caption}</p>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <i className="ri-zoom-in-line text-white text-3xl"></i>
+          {/* NEW: simple skeleton while loading from Sanity */}
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="h-64 bg-gray-100 animate-pulse rounded-2xl" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {displayImages.map((image, index) => (
+                <div
+                  key={index}
+                  className="group cursor-pointer overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+                  onClick={() => openLightbox(index)}
+                >
+                  <div className="relative">
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className="w-full h-64 object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                      loading={index > 3 ? 'lazy' : 'eager'}
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                      <p className="text-white font-medium">{image.caption}</p>
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <i className="ri-zoom-in-line text-white text-3xl"></i>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -170,31 +223,31 @@ export default function Gallery() {
       {selectedImage !== null && (
         <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
           <div className="relative max-w-4xl max-h-full">
-            <img 
-              src={galleryImages[selectedImage].src}
-              alt={galleryImages[selectedImage].alt}
+            <img
+              src={displayImages[selectedImage].src}     // CHANGED
+              alt={displayImages[selectedImage].alt}     // CHANGED
               className="max-w-full max-h-full object-contain"
             />
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/60 text-white px-4 py-2 rounded-lg">
-              {galleryImages[selectedImage].caption}
+              {displayImages[selectedImage].caption}     // CHANGED
             </div>
-            
+
             {/* Close button */}
-            <button 
+            <button
               onClick={closeLightbox}
               className="absolute top-4 right-4 text-white hover:text-gray-300 cursor-pointer"
             >
               <i className="ri-close-line text-3xl"></i>
             </button>
-            
+
             {/* Navigation buttons */}
-            <button 
+            <button
               onClick={prevImage}
               className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 cursor-pointer"
             >
               <i className="ri-arrow-left-line text-3xl"></i>
             </button>
-            <button 
+            <button
               onClick={nextImage}
               className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 cursor-pointer"
             >
@@ -207,23 +260,21 @@ export default function Gallery() {
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-purple-600 to-pink-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Create your own magical memories
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Create your own magical memories</h2>
           <p className="text-xl text-purple-100 mb-8">
             Book your children's party today and join our gallery of happy celebrations
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="/#book" 
+            <a
+              href="/#book"
               className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-full bg-white text-purple-600 hover:bg-gray-100 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer whitespace-nowrap"
             >
               <i className="ri-calendar-check-line mr-2"></i>
               Check availability
             </a>
-            <a 
-              href="/packages" 
+            <a
+              href="/packages"
               className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-full border-2 border-white text-white hover:bg-white hover:text-purple-600 transition-all duration-200 cursor-pointer whitespace-nowrap"
             >
               View packages
