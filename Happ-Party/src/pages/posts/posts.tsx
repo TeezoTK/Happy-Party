@@ -197,7 +197,7 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 mb-12">
-              <Button href="/#book" variant="primary" size="lg">
+              <Button href="/book" variant="primary" size="lg">
                 <i className="ri-calendar-check-line mr-2"></i>
                 Check availability
               </Button>
@@ -246,7 +246,7 @@ export default function Home() {
                   <Button href="/packages" variant="outline" className="w-full mb-2">
                     See details
                   </Button>
-                  <Button href="/#book" variant="primary" className="w-full">
+                  <Button href="/book" variant="primary" className="w-full">
                     Check availability
                   </Button>
                 </div>
@@ -338,7 +338,7 @@ export default function Home() {
                       >
                         Read more
                       </Link>
-                      <Button href="/#book" variant="secondary" size="sm">Check availability</Button>
+                      <Button href="/book" variant="secondary" size="sm">Check availability</Button>
                     </div>
                   </div>
                 </article>
@@ -404,7 +404,7 @@ export default function Home() {
             Book your children's party entertainer in London today
           </p>
           
-          <Button href="/#book" variant="primary" size="lg" className="whitespace-nowrap">
+          <Button href="/book" variant="primary" size="lg" className="whitespace-nowrap">
             <i className="ri-calendar-check-line mr-2"></i>
             Ready to party? Check availability
           </Button>
