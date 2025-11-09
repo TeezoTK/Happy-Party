@@ -126,7 +126,7 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 mb-12">
-              <Button href="/#book" variant="primary" size="lg">
+              <Button href="/book" variant="primary" size="lg">
                 <i className="ri-calendar-check-line mr-2"></i>
                 Check availability
               </Button>
@@ -280,7 +280,7 @@ export default function Home() {
             Book your children's party entertainer in London today
           </p>
           
-          <Button href="/#book" variant="primary" size="lg" className="whitespace-nowrap">
+          <Button href="/book" variant="primary" size="lg" className="whitespace-nowrap">
             <i className="ri-calendar-check-line mr-2"></i>
             Ready to party? Check availability
           </Button>
