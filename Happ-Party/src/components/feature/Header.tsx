@@ -75,7 +75,7 @@ export default function Header() {
                 </a>
               ))}
               <div className="pt-2">
-                <Button href="/#book" variant="primary" className="w-full whitespace-nowrap">
+                <Button href="/book" variant="primary" className="w-full whitespace-nowrap">
                   Check Availability
                 </Button>
               </div>
