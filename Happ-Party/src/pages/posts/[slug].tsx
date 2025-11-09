@@ -120,7 +120,7 @@ export default function PostDetail() {
               )}
 
               <div className="mt-10">
-                <Button href="/#book" variant="primary">Check Availability</Button>
+                <Button href="/book" variant="primary">Check Availability</Button>
               </div>
             </article>
           )}
