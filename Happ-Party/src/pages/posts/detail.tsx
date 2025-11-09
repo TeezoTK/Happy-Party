@@ -74,7 +74,7 @@ export default function PostDetailPage() {
         <main className="min-h-screen bg-white">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
             <h1 className="text-3xl font-bold mb-4">News is coming soon</h1>
-            <Button href="/#book" variant="primary">Check Availability</Button>
+            <Button href="/book" variant="primary">Check Availability</Button>
           </div>
         </main>
         <Footer />
@@ -134,7 +134,7 @@ export default function PostDetailPage() {
               {renderBody(post.body)}
 
               <div className="mt-10">
-                <Button href="/#book" variant="primary">Check Availability</Button>
+                <Button href="/book" variant="primary">Check Availability</Button>
               </div>
             </article>
           )}
