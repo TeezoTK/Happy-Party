@@ -157,7 +157,7 @@ export default function FAQs() {
                       <p className="text-gray-700 leading-relaxed">
                         {faq.answer}
                         {(index === 4 || index === 7) && (
-                          <span> <a href="/#book" className="text-purple-600 hover:underline">Book your party here</a>.</span>
+                          <span> <a href="/book" className="text-purple-600 hover:underline">Book your party here</a>.</span>
                         )}
                       </p>
                     </div>
@@ -202,7 +202,7 @@ export default function FAQs() {
             All questions answered? Let's create magical memories for your child's special day!
           </p>
           
-          <Button href="/#book" variant="primary" size="lg" className="whitespace-nowrap">
+          <Button href="/book" variant="primary" size="lg" className="whitespace-nowrap">
             <i className="ri-calendar-check-line mr-2"></i>
             Check availability
           </Button>
