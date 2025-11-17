@@ -171,7 +171,7 @@ export default function Packages() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button href="/#book" variant="primary" size="lg">
+              <Button href="/book" variant="primary" size="lg">
                 <i className="ri-calendar-check-line mr-2"></i>
                 Check Availability
               </Button>
@@ -237,7 +237,7 @@ export default function Packages() {
                   </ul>
                 </div>
 
-                <Button href="/#book" variant={pkg.popular ? "primary" : "outline"} className="w-full">
+                <Button href="/book" variant={pkg.popular ? "primary" : "outline"} className="w-full">
                   Check Availability
                 </Button>
               </div>
@@ -317,7 +317,7 @@ export default function Packages() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button href="/#book" variant="primary" size="lg">
+            <Button href="/book" variant="primary" size="lg">
               <i className="ri-calendar-check-line mr-2"></i>
               Check Availability
             </Button>
